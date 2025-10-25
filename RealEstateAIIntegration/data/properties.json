@@ -1,0 +1,5 @@
+[
+  { "id": 1, "location": "Downtown", "price": 250000, "size": 80, "status": "available" },
+  { "id": 2, "location": "Suburb", "price": 180000, "size": 100, "status": "available" },
+  { "id": 3, "location": "Uptown", "price": 320000, "size": 90, "status": "sold" }
+]

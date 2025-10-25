@@ -1,0 +1,6 @@
+/workspaces/OpenAIntegration/RealEstateAIIntegration/obj/Debug/net8.0/RealEstateAIIntegration.csproj.AssemblyReference.cache
+/workspaces/OpenAIntegration/RealEstateAIIntegration/obj/Debug/net8.0/RealEstateAIIntegration.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/OpenAIntegration/RealEstateAIIntegration/obj/Debug/net8.0/RealEstateAIIntegration.AssemblyInfoInputs.cache
+/workspaces/OpenAIntegration/RealEstateAIIntegration/obj/Debug/net8.0/RealEstateAIIntegration.AssemblyInfo.cs
+/workspaces/OpenAIntegration/RealEstateAIIntegration/obj/Debug/net8.0/RealEstateAIIntegration.csproj.CoreCompileInputs.cache
+/workspaces/OpenAIntegration/RealEstateAIIntegration/obj/Debug/net8.0/RealEstateAIIntegration.sourcelink.json

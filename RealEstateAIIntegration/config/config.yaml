@@ -1,0 +1,23 @@
+app:
+  name: RealEstate AI Integration
+  mode: production
+  version: 1.0.0
+
+openai:
+  model: gpt-4o
+  max_tokens: 400
+  temperature: 0.7
+
+languages:
+  default: en
+  supported: [en, fil, ar, zh, es, fr]
+
+firebase:
+  enabled: true
+  credentials: data/firebase_key.json
+
+scheduling:
+  timezone: Asia/Manila
+  working_hours:
+    start: 08:00
+    end: 18:00
