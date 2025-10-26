@@ -2,12 +2,17 @@ import sys
 import os
 sys.path.append(os.path.dirname(__file__))
 
+from service.market_forecast import MarketForecast
 from service.language_service import LanguageService
 from service.ai_service import AIService
 from service.ai_intent import AIIntent
 from service.schedule_service import ScheduleService
 from service.data_analysis import DataAnalysis
 from service.automation import Automation
+from service.predictive_analysis import PredictiveAnalysis
+from service.recommendation_service import RecommendationService
+from service.content_service import ContentService
+from service.automation_service import AutomationService
 
 
 def main():
@@ -17,6 +22,10 @@ def main():
     print("  📅 'book appointment', 'show appointments'")
     print("  📊 'analyze data'")
     print("  🤖 'client reply'")
+    print("  🧮 'predict trends'")
+    print("  🎯 'recommend properties'")
+    print("  🖼 'generate description'")
+    print("  ⚙️ 'auto follow-up'")
     print("  ❌ Type 'exit' to quit\n")
 
     # Check API Key
@@ -32,7 +41,12 @@ def main():
     intent_ai = AIIntent()
     scheduler = ScheduleService()
     analyzer = DataAnalysis("data/properties.json")
+    predictor = PredictiveAnalysis("data/market.csv")
+    recommender = RecommendationService("data/properties.csv")
+    automation_ai = AutomationService()
     automation = Automation("logs/actions.log")
+    content_ai = ContentService(api_key)
+    forecast = MarketForecast()  # ✅ You forgot to initialize this earlier!
 
     # Interactive loop
     while True:
@@ -41,12 +55,13 @@ def main():
             print("👋 Goodbye!")
             break
 
-        # Detect user language
+        # Detect language
         detected_lang = lang_service.detect_language(user_input)
         translated_input = lang_service.translate(user_input, detected_lang, "en")
 
-        # Determine intent
+        # Detect intent
         intent = intent_ai.detect_intent(translated_input)
+        response = ""
 
         # Handle intent cases
         if intent["intent"] == "schedule":
@@ -66,13 +81,42 @@ def main():
             message = input("Client says: ")
             response = automation.reply_to_client(message)
 
-        else:
-            # Use AI chat fallback
-            ai_response = ai.chat(translated_input)
-            response = ai_response
+        elif intent["intent"] == "forecast":
+            response = forecast.summarize_market()
 
-        # Translate AI output back to user’s language
-        translated_output = lang_service.translate(response, "en", detected_lang)
+        elif intent["intent"] == "analyze_news":
+            article = input("Paste real estate news or update: ")
+            response = forecast.analyze_news(article)
+
+        elif "predict" in user_input.lower():
+            response = predictor.forecast_market_trends()
+
+        elif "recommend" in user_input.lower():
+            prefs = {
+                "location": input("Preferred location: "),
+                "budget": float(input("Budget: ")),
+                "bedrooms": int(input("Bedrooms: "))
+            }
+            response = recommender.recommend(prefs)
+
+        elif "generate description" in user_input.lower():
+            data = {
+                "location": input("Property location: "),
+                "price": input("Price: "),
+                "bedrooms": input("Bedrooms: ")
+            }
+            response = content_ai.generate_description(data)
+
+        elif "auto follow-up" in user_input.lower():
+            name = input("Lead name: ")
+            response = automation_ai.auto_schedule_followup(name)
+
+        else:
+            # Default AI chat fallback
+            response = ai.chat(translated_input)
+
+        # Translate AI output back
+        translated_output = lang_service.translate(str(response), "en", detected_lang)
         direction = lang_service.get_direction(detected_lang)
 
         print(f"\n[{detected_lang.upper()} | {direction}] AI: {translated_output}\n")
